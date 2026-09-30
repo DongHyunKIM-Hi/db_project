@@ -61,4 +61,11 @@ public class OrderService {
                 .map(OrderResponse::from)
                 .toList();
     }
+
+    @Transactional
+    public void cancel(Long orderId) {
+        Order order = orderRepository.findById(orderId)
+                .orElseThrow(() -> new OrderNotFoundException(orderId));
+        order.cancel();        // save() 를 부르지 않는다
+    }
 }
