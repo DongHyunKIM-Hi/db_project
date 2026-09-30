@@ -1,0 +1,33 @@
+### STEP 7 — 전체 흐름 확인 (IntelliJ HTTP Client / VS Code REST Client)
+### 앱을 새로 띄우면 DataInitializer 가 분류 1 · 회원 5 · 도서 10권(stock 5)을 넣어둔다.
+### 요청마다 응답과 함께 콘솔의 SQL 로그를 같이 본다.
+
+### 2. 도서 목록 — 페이징 SQL(fetch first ? rows only)과 count(*) 확인
+GET http://localhost:8080/v1/books?categoryId=1&page=0&size=5
+
+### 3. 정상 주문 — 201, update books set ... 이 save() 없이 나가는지 확인
+POST http://localhost:8080/v1/orders
+Content-Type: application/json
+
+{ "memberId": 1, "lines": [{ "bookId": 1, "quantity": 2 }], "method": "CARD" }
+
+### 4. 재고 확인 — 도서 1의 stock 이 5 -> 3
+GET http://localhost:8080/v1/books?page=0&size=5
+
+### 5. 재고 초과 주문 — 400, 재고 3 그대로 / 새 주문·결제 없음
+POST http://localhost:8080/v1/orders
+Content-Type: application/json
+
+{ "memberId": 1, "lines": [{ "bookId": 1, "quantity": 99 }], "method": "CARD" }
+
+### 7. 주문 목록 — select 가 몇 번 나가는가? (주문 5건, 회원이 모두 다르면 21번)
+GET http://localhost:8080/v1/orders
+
+### 8. 주문 취소 — 204, 재고 3 -> 5, status CANCELED
+DELETE http://localhost:8080/v1/orders/1
+
+### 9. 재취소 — 400 (이미 취소된 주문)
+DELETE http://localhost:8080/v1/orders/1
+
+### 10. 없는 주문 조회 — 404
+GET http://localhost:8080/v1/orders/999
