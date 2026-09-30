@@ -11,6 +11,8 @@ spring:
     properties:
       hibernate:
         format_sql: true
+        # 컬렉션(orderItems, 그 안의 book)은 배치로 해결한다
+        default_batch_fetch_size: 100
 
 logging:
   level:
