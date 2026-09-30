@@ -27,12 +27,18 @@ public class Book {
     @Column(nullable = false)
     private int stock;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "category_id")
+    private Category category;
+
     public Book(String title, String author, int price, int stock) {
         this.title = title;
         this.author = author;
         this.price = price;
         this.stock = stock;
     }
+
+    public void assignCategory(Category category) { this.category = category; }
 
     // 재고 차감 — 변경 감지로 UPDATE가 나간다. save() 를 부르지 않는다
     public void removeStock(int quantity) {

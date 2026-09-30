@@ -16,6 +16,10 @@ public class Payment {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "order_id", nullable = false, unique = true)
+    private Order order;
+
     @Column(nullable = false)
     private int amount;
 
@@ -25,6 +29,12 @@ public class Payment {
 
     @Column(nullable = false, updatable = false)
     private LocalDateTime paidAt = LocalDateTime.now();
+
+    public Payment(Order order, int amount, PayMethod method) {
+        this.order = order;
+        this.amount = amount;
+        this.method = method;
+    }
 
     public enum PayMethod { CARD, TRANSFER, POINT }
 }
