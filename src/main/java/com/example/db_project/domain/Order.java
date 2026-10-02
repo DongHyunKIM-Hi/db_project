@@ -56,15 +56,5 @@ public class Order {
                 .sum();
     }
 
-    public void cancel() {
-        if (this.status == OrderStatus.CANCELED) {
-            throw new IllegalStateException("이미 취소된 주문입니다");
-        }
-        this.status = OrderStatus.CANCELED;
-        for (OrderItem item : orderItems) {
-            item.getBook().addStock(item.getQuantity());   // 재고 복구
-        }
-    }
-
     public enum OrderStatus { ORDERED, CANCELED }
 }
