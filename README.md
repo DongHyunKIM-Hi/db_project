@@ -28,5 +28,6 @@ JPA 엔티티 매핑 · 연관관계와 Repository · 트랜잭션 세 수업을
 | `step-6-cancel` | STEP 6 정답 — 주문 취소 |
 | `step-7-complete` | STEP 7 — 전체 흐름 확인용 HTTP 요청 모음 |
 | `challenge-b-nplus1` | 도전 정답 — N+1 해결 (fetch join + batch size) |
+| `challenge-propagation` | 도전 정답 — `REQUIRES_NEW`로 주문 시도 이력 남기기 |
 
 막히면 해당 STEP 브랜치와 내 코드를 비교해 보세요. 정답과 달라도 **동작 결과가 요구사항을 만족하면 괜찮습니다.**
