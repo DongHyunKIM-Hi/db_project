@@ -47,7 +47,7 @@ public class OrderService {
         return order.getId();
     }
 
-    // 엔티티가 아니라 DTO 로 바꿔서 반환한다 — 트랜잭션 안에서 지연 로딩을 다 읽어야 하기 때문
+    // 엔티티가 아니라 DTO 로 바꿔서 반환한다. DTO 변환은 이 트랜잭션 안에서 끝낸다.
     @Transactional(readOnly = true)
     public OrderResponse getOrder(Long orderId) {
         Order order = orderRepository.findById(orderId)
