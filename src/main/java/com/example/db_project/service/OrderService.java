@@ -22,9 +22,12 @@ public class OrderService {
     private final BookRepository bookRepository;
     private final OrderRepository orderRepository;
     private final PaymentRepository paymentRepository;
+    private final OrderLogService orderLogService;
 
     @Transactional
     public Long order(Long memberId, List<OrderLineRequest> lines, PayMethod method) {
+
+        orderLogService.write(memberId, "주문 시도");   // 주문이 실패해도 남는다 (REQUIRES_NEW)
 
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new MemberNotFoundException(memberId));
