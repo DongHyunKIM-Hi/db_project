@@ -11,6 +11,7 @@ public enum ErrorCode {
     BOOK_NOT_FOUND(HttpStatus.NOT_FOUND),
     CATEGORY_NOT_FOUND(HttpStatus.NOT_FOUND),
     OUT_OF_STOCK(HttpStatus.CONFLICT),
+    INVALID_QUANTITY(HttpStatus.BAD_REQUEST),
 
     // 주문
     ORDER_NOT_FOUND(HttpStatus.NOT_FOUND),
