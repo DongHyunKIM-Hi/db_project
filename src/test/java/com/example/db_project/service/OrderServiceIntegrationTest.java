@@ -25,7 +25,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @SpringBootTest
 @Transactional
-class OrderIntegrationTest {
+class OrderServiceIntegrationTest {
 
     @Autowired OrderService orderService;
     @Autowired MemberRepository memberRepository;
@@ -39,9 +39,7 @@ class OrderIntegrationTest {
 
     @BeforeEach
     void setUp() {
-        orderRepository.deleteAll();
-        paymentRepository.deleteAll();
-        member = memberRepository.save(new Member("통합회원", "integration@test.com"));
+        member = memberRepository.save(new Member("회원1", "m1@test.com"));
         book = bookRepository.save(new Book("자바의 정석", "고슬링", 30000, 5));
         em.flush();
         em.clear();
