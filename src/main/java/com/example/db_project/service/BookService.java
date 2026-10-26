@@ -4,6 +4,7 @@ import com.example.db_project.domain.Book;
 import com.example.db_project.domain.Category;
 import com.example.db_project.dto.BookRequest;
 import com.example.db_project.dto.BookResponse;
+import com.example.db_project.exception.CategoryNotFoundException;
 import com.example.db_project.repository.BookRepository;
 import com.example.db_project.repository.CategoryRepository;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +25,7 @@ public class BookService {
         Book book = new Book(request.getTitle(), request.getAuthor(), request.getPrice(), request.getStock());
         if (request.getCategoryId() != null) {
             Category category = categoryRepository.findById(request.getCategoryId())
-                    .orElseThrow(() -> new IllegalArgumentException("분류를 찾을 수 없습니다: " + request.getCategoryId()));
+                    .orElseThrow(() -> new CategoryNotFoundException(request.getCategoryId()));
             book.assignCategory(category);
         }
         return bookRepository.save(book).getId();

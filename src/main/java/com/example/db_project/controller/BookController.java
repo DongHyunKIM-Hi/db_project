@@ -3,6 +3,7 @@ package com.example.db_project.controller;
 import com.example.db_project.dto.BookRequest;
 import com.example.db_project.dto.BookResponse;
 import com.example.db_project.service.BookService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -21,7 +22,7 @@ public class BookController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Map<String, Long> create(@RequestBody BookRequest request) {
+    public Map<String, Long> create(@Valid @RequestBody BookRequest request) {
         return Map.of("id", bookService.create(request));
     }
 

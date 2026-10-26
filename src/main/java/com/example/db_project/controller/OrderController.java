@@ -3,6 +3,7 @@ package com.example.db_project.controller;
 import com.example.db_project.dto.OrderRequest;
 import com.example.db_project.dto.OrderResponse;
 import com.example.db_project.service.OrderService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +19,7 @@ public class OrderController {
     private final OrderService orderService;
 
     @PostMapping
-    public ResponseEntity<OrderResponse> order(@RequestBody OrderRequest request) {
+    public ResponseEntity<OrderResponse> order(@Valid @RequestBody OrderRequest request) {
         Long orderId = orderService.order(
                 request.getMemberId(), request.getLines(), request.getMethod());
 

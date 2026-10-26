@@ -13,6 +13,9 @@ spring:
         format_sql: true
 
 logging:
+  # 로그 한 줄마다 요청 id 가 찍힙니다. RequestIdFilter 가 MDC 에 넣어 준 값입니다.
+  pattern:
+    console: "%d{HH:mm:ss.SSS} %-5level [%X{requestId:-}] %logger{20} - %msg%n"
   level:
     org.hibernate.orm.jdbc.bind: trace
     org.springframework.transaction.interceptor: TRACE

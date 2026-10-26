@@ -1,5 +1,6 @@
 package com.example.db_project.domain;
 
+import com.example.db_project.exception.AlreadyCanceledException;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -58,7 +59,7 @@ public class Order {
 
     public void cancel() {
         if (this.status == OrderStatus.CANCELED) {
-            throw new IllegalStateException("이미 취소된 주문입니다");
+            throw new AlreadyCanceledException(this.id);
         }
         this.status = OrderStatus.CANCELED;
         for (OrderItem item : orderItems) {
