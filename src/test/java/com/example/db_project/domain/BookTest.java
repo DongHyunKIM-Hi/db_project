@@ -1,6 +1,7 @@
 package com.example.db_project.domain;
 
 import com.example.db_project.exception.ErrorCode;
+import com.example.db_project.exception.InvalidQuantityException;
 import com.example.db_project.exception.OutOfStockException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -41,6 +42,17 @@ class BookTest {
                 .isInstanceOf(OutOfStockException.class)
                 .extracting(e -> ((OutOfStockException) e).getErrorCode())
                 .isEqualTo(ErrorCode.OUT_OF_STOCK);
+
+        assertThat(book.getStock()).isEqualTo(5);
+    }
+
+    @Test
+    @DisplayName("음수 수량으로는 차감할 수 없고 재고는 그대로입니다")
+    void 음수_수량으로는_차감할_수_없다() {
+        assertThatThrownBy(() -> book.removeStock(-5))
+                .isInstanceOf(InvalidQuantityException.class);
+        assertThatThrownBy(() -> book.removeStock(0))
+                .isInstanceOf(InvalidQuantityException.class);
 
         assertThat(book.getStock()).isEqualTo(5);
     }
