@@ -76,4 +76,32 @@ class OrderServiceIntegrationTest {
 
         assertThat(bookRepository.findById(book.getId()).get().getStock()).isEqualTo(5);
     }
+
+    // ===== 실습 (2) — 컨텍스트 캐싱 확인용. 같은 설정이므로 컨텍스트를 재사용합니다 =====
+    @Test
+    @DisplayName("정상 주문은 재고를 줄이고 주문을 저장합니다")
+    void 정상_주문() {
+        Long orderId = orderService.order(member.getId(),
+                List.of(new OrderLineRequest(book.getId(), 2)), PayMethod.CARD);
+        em.flush();
+        em.clear();
+
+        assertThat(orderId).isNotNull();
+        assertThat(orderRepository.findAll()).hasSize(1);
+        assertThat(bookRepository.findById(book.getId()).get().getStock()).isEqualTo(3);
+    }
+
+    @Test
+    @DisplayName("없는 회원으로 주문하면 아무것도 저장되지 않습니다")
+    void 없는_회원_주문() {
+        assertThatThrownBy(() ->
+                orderService.order(99999L,
+                        List.of(new OrderLineRequest(book.getId(), 1)), PayMethod.CARD))
+                .isInstanceOf(com.example.db_project.exception.MemberNotFoundException.class);
+
+        em.clear();
+
+        assertThat(orderRepository.findAll()).isEmpty();
+        assertThat(bookRepository.findById(book.getId()).get().getStock()).isEqualTo(5);
+    }
 }

@@ -7,6 +7,9 @@ import com.example.db_project.domain.OrderItem;
 import com.example.db_project.domain.Payment;
 import com.example.db_project.domain.Payment.PayMethod;
 import com.example.db_project.dto.OrderLineRequest;
+import com.example.db_project.dto.OrderResponse;
+import com.example.db_project.exception.AlreadyCanceledException;
+import com.example.db_project.exception.ErrorCode;
 import com.example.db_project.exception.MemberNotFoundException;
 import com.example.db_project.exception.OutOfStockException;
 import com.example.db_project.repository.BookRepository;
@@ -104,4 +107,38 @@ class OrderServiceTest {
         assertThat(book.getStock()).isEqualTo(5);
     }
 
+
+    // ===== 실습 (5) =====
+    @Test
+    @DisplayName("이미 취소된 주문은 다시 취소할 수 없습니다")
+    void 이미_취소된_주문은_다시_취소할_수_없다() {
+        Order order = Order.create(member);
+        order.addOrderItem(new OrderItem(book, 2));
+        book.removeStock(2);
+        order.cancel();                      // 한 번 취소해 둡니다
+
+        when(orderRepository.findById(1L)).thenReturn(Optional.of(order));
+
+        assertThatThrownBy(() -> orderService.cancel(1L))
+                .isInstanceOf(AlreadyCanceledException.class)
+                .extracting(e -> ((AlreadyCanceledException) e).getErrorCode())
+                .isEqualTo(ErrorCode.ALREADY_CANCELED);
+
+        assertThat(book.getStock()).isEqualTo(5);    // 두 번 복구되지 않았습니다
+    }
+
+    // ===== 실습 (6) =====
+    @Test
+    @DisplayName("조회는 Mock 이 돌려준 값을 다시 확인하는 꼴이 됩니다")
+    void getOrder_가치가_낮은_테스트() {
+        Order order = Order.create(member);
+        order.addOrderItem(new OrderItem(book, 2));
+        when(orderRepository.findById(1L)).thenReturn(Optional.of(order));
+
+        OrderResponse response = orderService.getOrder(1L);
+
+        assertThat(response.getMemberName()).isEqualTo("회원1");
+        assertThat(response.getTotalPrice()).isEqualTo(60000);
+        assertThat(response.getItems()).hasSize(1);
+    }
 }
