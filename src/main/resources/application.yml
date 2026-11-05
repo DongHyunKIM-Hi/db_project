@@ -20,3 +20,10 @@ logging:
     org.hibernate.orm.jdbc.bind: trace
     org.springframework.transaction.interceptor: TRACE
     org.springframework.orm.jpa.JpaTransactionManager: DEBUG
+
+# 모니터링 시연: /actuator/health, /actuator/prometheus 열기
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,prometheus
