@@ -3,8 +3,8 @@ services:
     image: postgres:16
     container_name: pg-bookstore
     environment:
-      POSTGRES_USER: ${DB_USER}
-      POSTGRES_PASSWORD : ${DB_PASSWORD}
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD : postgres
       POSTGRES_DB : db_project
     ports:
       - "5433:5432"
