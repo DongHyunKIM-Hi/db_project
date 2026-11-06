@@ -1,0 +1,9 @@
+# compose 전용 Grafana 데이터소스
+# 같은 망 안이므로 host.docker.internal 이 아니라 "서비스 이름(prometheus)"으로
+apiVersion: 1
+datasources:
+  - name: Prometheus
+    type: prometheus
+    access: proxy
+    url: http://prometheus:9090
+    isDefault: true
