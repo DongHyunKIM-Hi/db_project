@@ -28,6 +28,9 @@ public class Book {
     @Column(nullable = false)
     private int stock;
 
+    @Column(length = 512)
+    private String coverImageKey;   // 예: covers/2026/11/8c1f...e2.png
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id")
     private Category category;
@@ -40,6 +43,8 @@ public class Book {
     }
 
     public void assignCategory(Category category) { this.category = category; }
+
+    public void changeCoverImage(String coverImageKey) { this.coverImageKey = coverImageKey; }
 
     // 재고 차감 — 변경 감지로 UPDATE가 나간다. save() 를 부르지 않는다
     public void removeStock(int quantity) {

@@ -27,3 +27,9 @@ management:
     web:
       exposure:
         include: health,info,prometheus
+
+# S3 연동 — 비밀이 아닌 값만 적는다. 키는 환경변수로만 들어온다 (교안 ④)
+app:
+  s3:
+    bucket: ${S3_BUCKET:bookstore-kim-0412}
+    region: ${AWS_REGION:ap-northeast-2}

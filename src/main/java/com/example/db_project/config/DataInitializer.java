@@ -23,6 +23,10 @@ public class DataInitializer implements CommandLineRunner {
     @Override
     @Transactional
     public void run(String... args) {
+        // ddl-auto: update(데이터 유지) 환경에서도 재부팅 시 중복 시드로 죽지 않게 — 이미 있으면 건너뛴다
+        if (categoryRepository.count() > 0) {
+            return;
+        }
         Category novel = categoryRepository.save(new Category("소설"));
 
         for (int i = 1; i <= 5; i++) {

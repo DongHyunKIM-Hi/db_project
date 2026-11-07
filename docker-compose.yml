@@ -21,8 +21,13 @@ services:
     container_name: bookstore-app
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/db_project
-      SPRING_DATASOURCE_USERNAME: ${DB_USER}
-      SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD}
+      SPRING_DATASOURCE_USERNAME: ${DB_USER:-postgres}
+      SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD:-postgres}
+      # ▼ 추가 — S3 접근용 (교안 ⑤). AWS 키에는 기본값을 일부러 두지 않는다
+      AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
+      AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
+      AWS_REGION: ${AWS_REGION}
+      S3_BUCKET: ${S3_BUCKET}
     ports:
       - "8080:8080"
     depends_on:

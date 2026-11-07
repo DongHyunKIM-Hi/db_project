@@ -19,7 +19,7 @@ JPA 엔티티 매핑 · 연관관계와 Repository · 트랜잭션 세 수업을
 
 | 브랜치 | 내용 |
 |---|---|
-| `main` | 시작 코드 (STEP 0 완료) |
+| `main` | 수업 진도 최신 상태 (테스트·Docker·모니터링 반영) |
 | `step-1-entities` | STEP 1 정답 — 엔티티 6개 매핑 |
 | `step-2-relations` | STEP 2 정답 — 연관관계 |
 | `step-3-repository` | STEP 3 정답 — Repository · 도서 API · 시드 데이터 |
@@ -29,5 +29,6 @@ JPA 엔티티 매핑 · 연관관계와 Repository · 트랜잭션 세 수업을
 | `step-7-complete` | STEP 7 — 전체 흐름 확인용 HTTP 요청 모음 |
 | `challenge-b-nplus1` | 도전 정답 — N+1 해결 (fetch join + batch size) |
 | `challenge-propagation` | 도전 정답 — `REQUIRES_NEW`로 주문 시도 이력 남기기 |
+| `aws-complete` | AWS S3 연동 완성 코드 — 업로드·프리사인 URL·책 표지 과제까지 |
 
 막히면 해당 STEP 브랜치와 내 코드를 비교해 보세요. 정답과 달라도 **동작 결과가 요구사항을 만족하면 괜찮습니다.**
