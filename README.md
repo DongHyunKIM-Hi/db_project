@@ -19,7 +19,7 @@ JPA 엔티티 매핑 · 연관관계와 Repository · 트랜잭션 세 수업을
 
 | 브랜치 | 내용 |
 |---|---|
-| `main` | 시작 코드 (STEP 0 완료) |
+| `main` | 수업 진도 최신 상태 (테스트·Docker·모니터링 반영) |
 | `step-1-entities` | STEP 1 정답 — 엔티티 6개 매핑 |
 | `step-2-relations` | STEP 2 정답 — 연관관계 |
 | `step-3-repository` | STEP 3 정답 — Repository · 도서 API · 시드 데이터 |
