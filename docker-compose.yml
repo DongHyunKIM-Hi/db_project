@@ -1,38 +1,21 @@
 services:
-  db:
-    image: postgres:16
-    container_name: pg-bookstore
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD : postgres
-      POSTGRES_DB : db_project
-    ports:
-      - "5433:5432"
-    volumes:
-      - bookstore-data:/var/lib/postgresql/data
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres"]
-      interval: 5s
-      timeout: 3s
-      retries: 10
-
   app:
     build: .
     container_name: bookstore-app
     environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/db_project
-      SPRING_DATASOURCE_USERNAME: ${DB_USER:-postgres}
-      SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD:-postgres}
-      # ▼ 추가 — S3 접근용 (교안 ⑤). AWS 키에는 기본값을 일부러 두지 않는다
+      # DB는 이제 AWS(RDS)에 — 접속 정보는 전부 .env에서 (RDS 토픽 ④)
+      SPRING_DATASOURCE_URL: ${SPRING_DATASOURCE_URL}
+      SPRING_DATASOURCE_USERNAME: ${SPRING_DATASOURCE_USERNAME}
+      SPRING_DATASOURCE_PASSWORD: ${SPRING_DATASOURCE_PASSWORD}
+      # 데이터가 유지되는 DB이므로 재시작마다 테이블을 지우지 않게 update로
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      # S3 접근용 — AWS 키에는 기본값을 일부러 두지 않는다
       AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
       AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
       AWS_REGION: ${AWS_REGION}
       S3_BUCKET: ${S3_BUCKET}
     ports:
       - "8080:8080"
-    depends_on:
-      db:
-        condition: service_healthy
 
   # ── 모니터링 스택: 수집기(Prometheus) + 화면(Grafana) ──────────────
   prometheus:
@@ -63,8 +46,4 @@ services:
       - ./monitoring/grafana/dashboards:/var/lib/grafana/dashboards
     depends_on:
       - prometheus
-
-
-volumes:
-  bookstore-data:
 
