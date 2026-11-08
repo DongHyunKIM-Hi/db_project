@@ -1,12 +1,13 @@
 spring:
-  # 접속 정보는 환경변수로 덮어쓸 수 있다. 기본값은 compose 의 db 컨테이너(호스트 5433).
+  # DB 는 이제 RDS. 접속 정보는 .env 에서 환경변수로 들어온다.
+  # 기본값으로는 뜨지 않게 두어, 설정을 빠뜨리면 바로 알아차리게 한다.
   datasource:
-    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5433/db_project}
+    url: ${SPRING_DATASOURCE_URL}
     username: ${SPRING_DATASOURCE_USERNAME:postgres}
     password: ${SPRING_DATASOURCE_PASSWORD:postgres}
   jpa:
     hibernate:
-      ddl-auto: ${SPRING_JPA_HIBERNATE_DDL_AUTO:create}
+      ddl-auto: ${SPRING_JPA_HIBERNATE_DDL_AUTO:update}
     show-sql: true
     open-in-view: false
     properties:
