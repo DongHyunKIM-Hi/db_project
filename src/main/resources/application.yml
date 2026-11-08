@@ -12,6 +12,11 @@ spring:
     properties:
       hibernate:
         format_sql: true
+  # 기본 한도가 1MB 라 사진 한 장에도 걸린다. 표지 업로드용으로 올려 둔다. (교안 ④)
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
 
 logging:
   # 로그 한 줄마다 요청 id 가 찍힙니다. RequestIdFilter 가 MDC 에 넣어 준 값입니다.
@@ -32,5 +37,5 @@ management:
 # S3 연동 — 비밀이 아닌 값만 적는다. 키는 환경변수로만 들어온다 (교안 ④)
 app:
   s3:
-    bucket: ${S3_BUCKET:bookstore-kim-0412}
+    bucket: ${S3_BUCKET:CHANGE-ME-본인-버킷-이름}
     region: ${AWS_REGION:ap-northeast-2}
