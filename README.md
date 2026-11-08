@@ -31,5 +31,6 @@ JPA 엔티티 매핑 · 연관관계와 Repository · 트랜잭션 세 수업을
 | `challenge-propagation` | 도전 정답 — `REQUIRES_NEW`로 주문 시도 이력 남기기 |
 | `aws-complete` | AWS S3 연동 완성 코드 — 업로드·프리사인 URL·책 표지 과제까지 |
 | `aws-rds-complete` | RDS 전환 완성 코드 — compose에서 db 제거, 접속 정보는 .env로 |
+| `aws-deploy-complete` | 자동 배포 완성 코드 — GitHub Actions(OIDC)로 ECR push·ECS 배포 |
 
 막히면 해당 STEP 브랜치와 내 코드를 비교해 보세요. 정답과 달라도 **동작 결과가 요구사항을 만족하면 괜찮습니다.**
