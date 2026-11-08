@@ -4,12 +4,12 @@ import com.example.db_project.domain.Book;
 import com.example.db_project.domain.Category;
 import com.example.db_project.dto.BookRequest;
 import com.example.db_project.dto.BookResponse;
+import com.example.db_project.exception.BookNotFoundException;
 import com.example.db_project.exception.CategoryNotFoundException;
 import com.example.db_project.repository.BookRepository;
 import com.example.db_project.repository.CategoryRepository;
 import com.example.db_project.storage.S3StorageService;
 import org.springframework.web.multipart.MultipartFile;
-import java.util.NoSuchElementException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -47,7 +47,7 @@ public class BookService {
     @Transactional
     public String uploadCover(Long id, MultipartFile file) {
         Book book = bookRepository.findById(id)
-                .orElseThrow(() -> new NoSuchElementException("book not found: " + id));
+                .orElseThrow(() -> new BookNotFoundException(id));
         String key = s3StorageService.upload(file);
         book.changeCoverImage(key);
         return key;
@@ -57,7 +57,7 @@ public class BookService {
     @Transactional(readOnly = true)
     public BookResponse getBook(Long id) {
         Book book = bookRepository.findById(id)
-                .orElseThrow(() -> new NoSuchElementException("book not found: " + id));
+                .orElseThrow(() -> new BookNotFoundException(id));
         String coverUrl = book.getCoverImageKey() == null
                 ? null : s3StorageService.createViewUrl(book.getCoverImageKey());
         return BookResponse.from(book, coverUrl);
